@@ -1,8 +1,12 @@
 from nrf24 import NRF24
 import time
 from time import gmtime, strftime
+import requests
+import json
 
-pipes = [[0xf0, 0xf0, 0xf0, 0xf0, 0xe1], [0xf0, 0xf0, 0xf0, 0xf0, 0xd2], [0xf0, 0xf0, 0xf0, 0xf0, ], [0xf0], [0xf0], [0xf0]]
+
+# Communication setup
+pipes = [[0xf0, 0xf0, 0xf0, 0xf0, 0xe1], [0xf0, 0xf0, 0xf0, 0xf0, 0xd1], [0xf0, 0xf0, 0xf0, 0xf0, 0xd2], [0xf0, 0xf0, 0xf0, 0xf0, 0xd3], [0xf0, 0xf0, 0xf0, 0xf0, 0xd4], [0xf0, 0xf0, 0xf0, 0xf0, 0xd5]]
 
 radio = NRF24()
 radio.begin(0, 0,25,18) #set gpio 25 as CE pin
@@ -19,51 +23,49 @@ radio.openReadingPipe(3, pipes[3])
 radio.openReadingPipe(4, pipes[4])
 radio.openReadingPipe(5, pipes[5])
 
-
-def parseData (out):
-	dataFromBoard = out
-	value = dataFromBoard.split("_")
-	return value
-
-def toDatabase(parsedString):
-	if parsedString[2] == 'one':
-	   payload={'Ground Moisture 1': parsedString[0]}
-	   r = requests.put(url, data=json.dumps(payload))
-	   print r.text
-	elif parsedString[2] == 'two':
-		payload={'Ground Moisture 2': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	elif parsedString[2] == 'three':
-		payload={'Ground Moisture 3': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	elif parsedString[2] == 'four':
-		payload={'Temperature': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	elif parsedString[2] == 'five':
-		payload={'Ground Temperature': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	elif parsedString[2] == 'six':
-		payload={'Humidity': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	elif parsedString[2] == 'seven':
-		payload={'Light': parsedString[0]}
-		r = requests.put(url, data=json.dumps(payload))
-		print r.text
-	else:
-	   print 'Cant Recognize Sensor'
-
-
-
 radio.startListening()
 radio.stopListening()
 
 radio.printDetails()
 radio.startListening()
+
+
+def toDatabase(value):
+	url = 'https://farmsd.firebaseio.com/modules/' + value[1] + '/' + value[2] + '/.json'
+	if value[2] == 'one':
+	   payload = {'name': 'Ground Moisture 1', 'value': value[0]}
+	   r = requests.put(url, data=json.dumps(payload))
+	   print r.text
+	elif value[2] == 'two':
+		payload = {'name': 'Ground Moisture 2', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	elif value[2] == 'three':
+		payload = {'name': 'Ground Moisture 3', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	elif value[2] == 'four':
+		payload = {'name': 'Temperature', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	elif value[2] == 'five':
+		payload = {'name': 'Ground Temperature', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	elif value[2] == 'six':
+		payload = {'name': 'Humidity', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	elif value[2] == 'seven':
+		payload = {'name': 'Light', 'value': value[0]}
+		r = requests.put(url, data=json.dumps(payload))
+		print r.text
+	else:
+	   print 'Cant Recognize Sensor'
+
+def sendToDatabase(out):
+    value = out.split("\\0x00")
+    toDatabase(value)
 
 while True:
     pipe = [0]
@@ -72,8 +74,5 @@ while True:
     recv_buffer = []
     radio.read(recv_buffer)
     out = ''.join(chr(i) for i in recv_buffer)
-    # insert function here
-    parsedData = parseData(out)
-    toDatabase(parsedData)
+    sendToDatabase(out)
     print out
-
