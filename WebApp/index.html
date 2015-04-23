@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html ng-app="farmSD" lang="en">
+
+<head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.0.0/angularfire.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+
+    <script type="text/javascript"
+    src="https://www.google.com/jsapi?autoload={
+        'modules':[{
+          'name':'visualization',
+          'version':'1',
+          'packages':['corechart']
+      }]
+  }"></script>
+
+  <script src="js/app.js"></script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+  <title>FARM - Fundamental Agrigultural Resource Monitor</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="css/grayscale.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body ng-controller="farmController" id="page-top" data-spy="scroll" data-target=".navbar-fixed-top" >
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="#page-top">
+                        <i class="fa fa-play-circle"></i>  <span class="light">FARM</span> Interface
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#about">Modules</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#download">Data</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#map">Map View</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Intro Header -->
+        <header class="intro">
+            <div class="intro-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <h1 class="brand-heading">F.A.R.M.</h1>
+                            <p class="intro-text">Fundamental Agricultural Resource Monitor</p>
+                            
+                            <a href="#about" class="btn btn-circle page-scroll">
+                                <i class="fa fa-angle-double-down animated"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section  id="about" class="container content-section text-center">
+            <button onclick="myHideFunction()" >Hide</button>
+            <button onclick="myShowFunction()" >Show</button>
+            <p>{{indicator}}</p>
+
+            <div id="tableA" style="float:left; margin-right: 40px;" >
+                <table  class='table table-bordered' style="width:300px">
+                    <tr>Module A</tr>
+                    <tr>
+                        <th>Sensor</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.one.name}}</td> 
+                        <td>{{data.A.one.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.two.name}}</td>  
+                        <td>{{data.A.two.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.three.name}}</td>  
+                        <td>{{data.A.three.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.four.name}}</td>  
+                        <td>{{data.A.four.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.five.name}}</td>  
+                        <td>{{data.A.five.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.six.name}}</td>  
+                        <td>{{data.A.six.value}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{data.A.seven.name}}</td>  
+                        <td>{{data.A.seven.value}}</td>
+                    </tr>
+
+                </table>
+            </div>
+            <div id="tableB" style="float:left; margin-right: 40px;">
+                <table class='table table-hover table-bordered' style="width:300px">
+                  <tr>Module B</tr>
+                  <tr>
+                    <th>Sensor</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>{{data.B.one.name}}</td> 
+                    <td>{{data.B.one.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.two.name}}</td>  
+                    <td>{{data.B.two.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.three.name}}</td>  
+                    <td>{{data.B.three.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.four.name}}</td>  
+                    <td>{{data.B.four.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.five.name}}</td>  
+                    <td>{{data.B.five.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.six.name}}</td>  
+                    <td>{{data.B.six.value}}</td>
+                </tr>
+                <tr>
+                    <td>{{data.B.seven.name}}</td>  
+                    <td>{{data.B.seven.value}}</td>
+                </tr>
+
+            </table>
+        </div>
+        <div style="float:left; margin-right: 40px;">
+          <table id="tableC" class='table table-hover table-bordered' style="width:300px">
+              <tr>Module C</tr>
+              <tr>
+                <th>Sensor</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>{{data.C.one.name}}</td> 
+                <td>{{data.C.one.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.two.name}}</td>  
+                <td>{{data.C.two.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.three.name}}</td>  
+                <td>{{data.C.three.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.four.name}}</td>  
+                <td>{{data.C.four.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.five.name}}</td>  
+                <td>{{data.C.five.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.six.name}}</td>  
+                <td>{{data.C.six.value}}</td>
+            </tr>
+            <tr>
+                <td>{{data.C.seven.name}}</td>  
+                <td>{{data.C.seven.value}}</td>
+            </tr>
+        </table>
+    </div>
+    <div style="float:left; margin-right: 40px;">
+      <table id="tableD" class='table table-hover table-bordered' style="width:300px">
+          <tr>Module D</tr>
+          <tr>
+            <th>Sensor</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>{{data.D.one.name}}</td> 
+            <td>{{data.D.one.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.two.name}}</td>  
+            <td>{{data.D.two.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.three.name}}</td>  
+            <td>{{data.D.three.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.four.name}}</td>  
+            <td>{{data.D.four.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.five.name}}</td>  
+            <td>{{data.D.five.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.six.name}}</td>  
+            <td>{{data.D.six.value}}</td>
+        </tr>
+        <tr>
+            <td>{{data.D.seven.name}}</td>  
+            <td>{{data.D.seven.value}}</td>
+        </tr>
+    </table>
+</div>
+<div style="float:left; margin-right: 40px;">
+  <table id="tableE" class='table table-hover table-bordered' style="width:300px">
+      <tr>Module E</tr>
+      <tr>
+        <th>Sensor</th>
+        <th>Value</th>
+    </tr>
+    <tr> <!-- ng-repeat="item in employee" -->
+        <td>{{data.E.one.name}}</td> 
+        <td>{{data.E.one.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.two.name}}</td>  
+        <td>{{data.E.two.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.three.name}}</td>  
+        <td>{{data.E.three.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.four.name}}</td>  
+        <td>{{data.E.four.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.five.name}}</td>  
+        <td>{{data.E.five.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.six.name}}</td>  
+        <td>{{data.E.six.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.E.seven.name}}</td>  
+        <td>{{data.E.seven.value}}</td>
+    </tr>
+</table>
+</div>
+<div style="float:left; ">
+  <table  class='table table-hover table-bordered' style="width:300px">
+      <tr>Module Offline</tr>
+      <tr>
+        <th>Sensor</th>
+        <th>Value</th>
+    </tr>
+    <tr> <!-- ng-repeat="item in employee" -->
+        <td>{{data.A.one.name}}</td> 
+        <td>{{data.A.one.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.two.name}}</td>  
+        <td>{{data.A.two.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.three.name}}</td>  
+        <td>{{data.A.three.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.four.name}}</td>  
+        <td>{{data.A.four.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.five.name}}</td>  
+        <td>{{data.A.five.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.six.name}}</td>  
+        <td>{{data.A.six.value}}</td>
+    </tr>
+    <tr>
+        <td>{{data.A.seven.name}}</td>  
+        <td>{{data.A.seven.value}}</td>
+    </tr>
+</table>
+</div>
+<div class="row"></div>
+</section>
+<!-- Download Section -->
+<section id="download" class="content-section">
+    <div ng-controller="dataController">
+        <div class="download-section">
+            <div style="float:left" >
+
+                <div>
+
+
+                    {{selectedItem.id}}
+
+                </div>
+                <h1>Graphs</h1>
+                <h3>Select the module</h3>
+                <select ng-model="selectedItem" 
+                    ng-options="item as item.module for item in items"
+                    ng-change="getChart(selectedItem)"></select>
+            </div>
+            <div class="container">
+                <div align="right">
+                    <div id="chart_div" style="width: 800px; height: 400px;"> What do we have here</div>
+
+                </div>
+                <div <div id="chart_div2" style="width: 800px; height: 400px;"> What do we have here</div>>
+                    
+                </div>
+                <div class="col-lg-8 col-lg-offset-2">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+
+
+
+<!-- Map Section -->
+<div> 
+    <div id="map"></div>
+</div>
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>F.A.R.M. - Senior Design Spring 2015 - Thank you! </p>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+
+<!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/grayscale.js"></script>
+
+</body>
+
+</html>
