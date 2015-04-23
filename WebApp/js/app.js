@@ -1,6 +1,5 @@
 var app = angular.module("farmSD", ["firebase"]);
 
-
 app.controller("farmController", function($scope, $firebaseObject) {
 	var ref = new Firebase("https://farmsd.firebaseio.com/modules");
   // download the data into a local object
@@ -147,89 +146,86 @@ app.controller('dataController', ['$scope', function($scope) {
 
 	$scope.selectedItem = $scope.items[0];
 
-	$scope.getChart = function () {
+    // Selector Function
+    $scope.getChart = function () {
+      switch($scope.selectedItem.id) {
+         case 1:
+         {
+            console.log("You selected one");
+        }
+        break;
+        case 2:
+        {
+            console.log("You selected two");
+        }
+        break;
+        case 3:
+        {
+            console.log("You selected three");
+        }
+        break;
+        case 4:
+        {
+            console.log("You selected four");
+        }
+        break;
+        case 5:
+        {
+            console.log("You selected five");
+        }
+        break;
+        default:
+        {
+            console.log("No code selected");
+        }
+    }
 
+    console.log($scope.selectedItem.id);
 
-		switch($scope.selectedItem.id) {
-			case 1:
-			{
-				console.log("You selected one");
-			}
-			break;
-			case 2:
-			{
-				console.log("You selected two");
-			}
-			break;
-			case 3:
-			{
-				console.log("You selected three");
-			}
-			break;
-			case 4:
-			{
-				console.log("You selected four");
-			}
-			break;
-			case 5:
-			{
-				console.log("You selected five");
-			}
-			break;
-			default:
-			{
-				console.log("No code selected");
-			}
-		}
-
-		console.log($scope.selectedItem.id);
-
-	};
-	//google.setOnLoadCallback(drawChart)
-
+};
 	google.setOnLoadCallback(drawChart)
 
-		function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-				['Module ', 'Sales', 'Expenses'],
-				['2004',  1000,      400],
-				['2005',  1170,      460],
-				['2006',  660,       1120],
-				['2007',  1030,      540]
-				]);
+  function drawChart() {
+     var data = google.visualization.arrayToDataTable([
+        ['Module ', 'Sales', 'Expenses'],
+        ['2004',  1000,      400],
+        ['2005',  1170,      460],
+        ['2006',  660,       1120],
+        ['2007',  1030,      540]
+        ]);
 
-			var options = {
-				title: 'Company Performance',
-				curveType: 'function',
-				legend: { position: 'bottom' }
-			};
+     var options = {
+        title: 'Company Performance',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+    };
 
-			var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-			chart.draw(data, options);
-		}
+    chart.draw(data, options);
+}
 
-	google.setOnLoadCallback(drawChart2)
+google.setOnLoadCallback(drawChart2)
 
-		function drawChart2() {
-			var data = google.visualization.arrayToDataTable([
-				['Module ', 'Sales', 'Expenses'],
-				['2004',  1000,      400],
-				['2005',  1170,      460],
-				['2006',  660,       1120],
-				['2007',  1030,      540]
-				]);
+function drawChart2() {
+ var data = google.visualization.arrayToDataTable([
+    ['Module ', 'Sales', 'Expenses'],
+    ['2004',  1000,      400],
+    ['2005',  1170,      460],
+    ['2006',  660,       1120],
+    ['2007',  1030,      540]
+    ]);
 
-			var options = {
-				title: 'Company Performance',
-				curveType: 'function',
-				legend: { position: 'bottom' }
-			};
+ var options = {
+    title: 'Company Performance',
+    curveType: 'function',
+    legend: { position: 'bottom' }
+};
 
-			var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
 
-			chart.draw(data, options);
-		}
+chart.draw(data, options);
+}
 
 
 
