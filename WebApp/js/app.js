@@ -187,7 +187,7 @@ app.controller('dataController', ['$scope', function($scope) {
 
   function drawChart() {
      var data = google.visualization.arrayToDataTable([
-        ['Module ', 'Sales', 'Expenses'],
+        ['Module', 'Sales', 'Expenses'],
         ['2004',  1000,      400],
         ['2005',  1170,      460],
         ['2006',  660,       1120],
@@ -197,7 +197,7 @@ app.controller('dataController', ['$scope', function($scope) {
      var options = {
         title: 'Company Performance',
         curveType: 'function',
-        legend: { position: 'bottom' }
+        legend: { position: 'bottom' },
     };
 
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
